@@ -1,0 +1,17 @@
+{
+  "name": "first_nodeexpress",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "Nabila",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --env-file=.env app.js",
+    "dev" : "node --watch --env-file=.env app.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
