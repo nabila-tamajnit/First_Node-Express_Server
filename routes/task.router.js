@@ -27,4 +27,16 @@ taskRouter.delete('/:id', (req, res) => {
 })
 
 
+taskRouter.get('/user/:id', (req, res) => {
+    const user = req.params.id;
+    res.send(`Voici les taches de l'utilisateur ${user}`);
+})
+
+taskRouter.patch('/:isDone', (req, res) => {
+    const taskIsDone = req.params.isDone;
+    const taskIsDoneUpdate = req.body;
+
+    res.send( taskIsDoneUpdate , 200);
+})
+
 module.exports = taskRouter;
