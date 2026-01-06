@@ -154,6 +154,60 @@ collection:
             send: true
             store: true
           rebuildPath: true
+      - url: http://localhost:3000/api/tasks/user/1
+        name: GetByUserId
+        meta:
+          id: req_af529c47bc204e948a05585124fef543
+          created: 1767710397832
+          modified: 1767711446306
+          isPrivate: false
+          description: ""
+          sortKey: -1767710397832
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/api/tasks/isDone
+        name: UpdateOneElement
+        meta:
+          id: req_3792d447740244229cc62f5291cfebe7
+          created: 1767711701516
+          modified: 1767712169979
+          isPrivate: false
+          description: ""
+          sortKey: -1767696303350
+        method: PATCH
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"isDone" : "true"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
   - name: Categories
     meta:
       id: fld_e5628c5f5a1e49f18d602c41f6dbb4d4
