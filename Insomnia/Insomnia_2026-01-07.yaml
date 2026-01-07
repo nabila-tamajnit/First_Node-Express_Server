@@ -43,7 +43,7 @@ collection:
         meta:
           id: req_0c48e05fc5054939a8083057d4d33876
           created: 1767696848300
-          modified: 1767702164697
+          modified: 1767793626301
           isPrivate: false
           description: ""
           sortKey: -1767696303600
@@ -154,15 +154,15 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:3000/api/tasks/user/1
-        name: GetByUserId
+      - url: http://localhost:3000/api/tasks/user/Nabila
+        name: GetByUser
         meta:
           id: req_af529c47bc204e948a05585124fef543
           created: 1767710397832
-          modified: 1767711446306
+          modified: 1767775708913
           isPrivate: false
           description: ""
-          sortKey: -1767710397832
+          sortKey: -1767696303550
         method: GET
         headers:
           - name: User-Agent
@@ -177,12 +177,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:3000/api/tasks/isDone
-        name: UpdateOneElement
+      - url: http://localhost:3000/api/tasks/1
+        name: UpdateStatus
         meta:
           id: req_3792d447740244229cc62f5291cfebe7
           created: 1767711701516
-          modified: 1767712169979
+          modified: 1767776204635
           isPrivate: false
           description: ""
           sortKey: -1767696303350
@@ -191,7 +191,7 @@ collection:
           mimeType: application/json
           text: |-
             {
-            	"isDone" : "true"
+            	"isDone" : true
             }
         headers:
           - name: Content-Type
@@ -221,7 +221,7 @@ collection:
         meta:
           id: req_3160646cf8d642b0ab477a21be4fead8
           created: 1767706528252
-          modified: 1767706555998
+          modified: 1767782644649
           isPrivate: false
           description: ""
           sortKey: -1767706528252
@@ -262,12 +262,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:3000/api/tasks/
+      - url: http://localhost:3000/api/categories
         name: Insert
         meta:
           id: req_2e541c48360c4807b2ff09f044615025
           created: 1767706983022
-          modified: 1767707151044
+          modified: 1767774956953
           isPrivate: false
           description: ""
           sortKey: -1767706528052
@@ -366,4 +366,4 @@ spec:
   meta:
     id: spc_0179b3952aaa4037a34fb32b1f2b2809
     created: 1767695843723
-    modified: 1767695843723
+    modified: 1767774383225
