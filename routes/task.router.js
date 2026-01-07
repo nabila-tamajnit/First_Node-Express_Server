@@ -7,7 +7,7 @@ taskRouter.route('/')
     .post(taskController.insert)
 
 taskRouter.route('/:id')
-    .get(taskController.getAll)
+    .get(taskController.getById)
     .put(taskController.update)
     .delete(taskController.delete)
     .patch(taskController.updateStatus)
