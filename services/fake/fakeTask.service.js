@@ -10,6 +10,14 @@ const fakeTaskService = {
         return tasks.find(task => task.id === id);
     },
 
+    findAssignedTo : (userName) => {
+        return tasks.filter(task => task.to === userName);
+    },
+
+    findGivenBy : (userName) => {
+        return tasks.filter(task => task.to === userName);
+    },
+
     create : (taskToAdd) => {
         const idMax = Math.max(...tasks.map(task => task.id));
 
@@ -19,6 +27,18 @@ const fakeTaskService = {
         tasks.push(taskToAdd);
 
         return taskToAdd;
+    },
+
+    update : (id) => {
+
+    },
+
+    updateStatus : (id) => {
+
+    },
+
+    delete : (id) => {
+
     }
 }
 

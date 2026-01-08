@@ -9,14 +9,13 @@ const taskController = {
      * @param { Request } req 
      * @param { Response } res 
      */
-
     getAll : (req, res) => {
         const tasks = fakeTaskService.find();
 
-        // Version 1
+        // Version 1 (quand ya pas forcement bcp d'éléments)
         // res.status(200).json(tasks)
 
-        // Version 2
+        // Version 2 (mieux quand y aura beaucoup d'éléments)
         const dataToSend = {
             count : tasks.length,
             tasks : tasks
@@ -30,16 +29,15 @@ const taskController = {
      * @param { Request } req 
      * @param { Response } res 
      */
-
     getById : (req, res) => {
         const id = +req.params.id;
         const task = fakeTaskService.findById(id);
 
         if(!task){
             res.status(404).json({
-                                statusCode : 404,
-                                message : 'tâche non trouvée'
-                            })
+                statusCode : 404,
+                message : 'Tâche non trouvée'
+            })
         }
 
         res.status(200).json(task);
@@ -50,9 +48,12 @@ const taskController = {
      * @param { Request } req 
      * @param { Response } res 
      */
-
     getByUser : (req, res) => {
-        res.sendStatus(501);
+        const userName = req.params.name;
+        const tasks = fakeTaskService.findToUser(userName);
+
+        res.status(200).json(tasks)
+        // res.sendStatus(501);
     },
     //? -------------------------------------------
     /**
@@ -60,7 +61,6 @@ const taskController = {
      * @param { Request } req 
      * @param { Response } res 
      */
-
     insert : (req, res) => {
         const taskToAdd = req.body;
         const addedTask = fakeTaskService.create(taskToAdd);
@@ -74,7 +74,6 @@ const taskController = {
      * @param { Request } req 
      * @param { Response } res 
      */
-
     update : (req, res) => {
         res.sendStatus(501);
     },
@@ -84,7 +83,6 @@ const taskController = {
      * @param { Request } req 
      * @param { Response } res 
      */
-
     updateStatus : (req, res) => {
         res.sendStatus(501);
     },
@@ -94,7 +92,6 @@ const taskController = {
      * @param { Request } req 
      * @param { Response } res 
      */
-
     delete : (req, res) => {
         res.sendStatus(501);
     }
