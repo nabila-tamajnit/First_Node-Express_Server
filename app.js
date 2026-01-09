@@ -5,8 +5,10 @@ const { PORT } = process.env;
 
 server.use(express.json());
 
-const router = require('./routes');
+const logMiddleware = require('./middlewares/log.middleware');
+server.use(logMiddleware());
 
+const router = require('./routes');
 server.use('/api', router);
 
 server.listen(PORT, () => {

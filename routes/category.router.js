@@ -1,4 +1,5 @@
 const categoryController = require('../controllers/category.controller');
+const idValidatorMiddleware = require('../middlewares/idValidator.middleware');
 
 const categoryRouter = require('express').Router();
 
@@ -7,8 +8,8 @@ categoryRouter.route('/')
     .post(categoryController.insert)
 
 categoryRouter.route('/:id')
-    .get(categoryController.getById)
-    .put(categoryController.update)
-    .delete(categoryController.delete)
+    .get(idValidatorMiddleware(), categoryController.getById)
+    .put(idValidatorMiddleware(), categoryController.update)
+    .delete(idValidatorMiddleware(), categoryController.delete)
 
 module.exports = categoryRouter;
