@@ -50,10 +50,22 @@ const taskController = {
      */
     getByUser : (req, res) => {
         const userName = req.params.name;
-        const tasks = fakeTaskService.findToUser(userName);
 
-        res.status(200).json(tasks)
-        // res.sendStatus(501);
+        //  Version 1 
+        // const tasks = fakeTaskService.findToUser(userName);
+        // res.status(200).json(tasks);
+
+        //  Version 2
+        const tasksToDo = fakeTaskService.findAssignedTo(userName);
+        const tasksGiven = fakeTaskService.findGivenBy(userName);
+
+        const dataToSend = {
+            tasksToDo,
+            tasksGiven
+        }
+
+        res.status(200).json(dataToSend);
+
     },
     //? -------------------------------------------
     /**
@@ -75,7 +87,20 @@ const taskController = {
      * @param { Response } res 
      */
     update : (req, res) => {
-        res.sendStatus(501);
+        const id = +req.params.id;
+        const newTaskInfos = req.body;
+
+        const task = fakeTaskService.findById(id);
+        if(!task) {
+            res.status(404).json({
+                statusCode : 404,
+                message : 'La tâche que vous essayez de modifier n\'existe pas'
+            });
+        }
+
+        const updatedTask = fakeTaskService.update(id, newTaskInfos);
+
+        res.status(200).json(updatedTask);
     },
     //? -------------------------------------------
     /**
@@ -84,7 +109,20 @@ const taskController = {
      * @param { Response } res 
      */
     updateStatus : (req, res) => {
-        res.sendStatus(501);
+        const id = +req.params.id;
+        const newStatus = req.body.isDone;
+
+        const task = fakeTaskService.findById(id);
+        if (!task) {
+            res.status(404).json({
+                statusCode : 404,
+                message : 'La tâche que vous essayez de modifier n\'existe pas'
+            });
+        }
+
+        const updatedTask = fakeTaskService.updateStatus(id, newStatus);
+
+        res.status(200).json(updatedTask);
     },
     //? -------------------------------------------
     /**
@@ -93,7 +131,19 @@ const taskController = {
      * @param { Response } res 
      */
     delete : (req, res) => {
-        res.sendStatus(501);
+        const id = +req.params.id;
+
+        if(fakeTaskService.delete(id)){
+            res.sendStatus(204);
+        }
+        else {
+            res.status(404).json({
+            statusCode : 404,
+            message : 'Suppression impossible, la tâche n\'existe pas'
+        })
+        }
+
+        
     }
 
 }

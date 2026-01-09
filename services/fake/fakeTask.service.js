@@ -15,11 +15,17 @@ const fakeTaskService = {
     },
 
     findGivenBy : (userName) => {
-        return tasks.filter(task => task.to === userName);
+        return tasks.filter(task => task.by === userName);
     },
 
     create : (taskToAdd) => {
-        const idMax = Math.max(...tasks.map(task => task.id));
+
+        let idMax;
+        if(tasks.length !== 0) {
+            idMax = Math.max(...tasks.map(task => task.id));
+        } else {
+            idMax = 0;
+        }
 
         taskToAdd.id = idMax + 1;
         taskToAdd.isDone = false;
@@ -29,15 +35,33 @@ const fakeTaskService = {
         return taskToAdd;
     },
 
-    update : (id) => {
+    update : (id, task) => {
+        const taskToUpdate = tasks.find(task => task.id === id);
 
+        taskToUpdate.name = task.name;
+        taskToUpdate.category = task.category;
+        taskToUpdate.before = task.before;
+        taskToUpdate.by = task.by;
+        taskToUpdate.to = task.to;
+
+        return taskToUpdate;
     },
 
-    updateStatus : (id) => {
-
+    updateStatus : (id, status) => {
+        const taskToUpdate = tasks.find(task => task.id === id);
+        taskToUpdate.isDone = status;
+        return taskToUpdate;
     },
 
     delete : (id) => {
+        const index = tasks.findIndex(task => task.id === id);
+
+        if(index === -1) {
+            return false;
+        }
+
+        tasks.splice(index, 1);
+        return true;
 
     }
 }
