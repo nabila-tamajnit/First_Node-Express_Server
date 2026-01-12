@@ -11,14 +11,10 @@ const nameVerificationMiddleware = () => {
         let offensiveName = ['boucher', 'macron', 'west', 'trump', 'musk'];
 
         //pour chaque mot offensant, est-ce que name contient ce mot
-        for (let i = 0; i < offensiveName.length; index++) {
-
-            if (name.includes(offensiveName[i])) {
-                res.status(400).json({ statusCode: 400, message: 'Ce nom ne peut être validé' });
-            } else {
-                next();
-            }
-
+        if (offensiveName.some(mot => name.includes(mot))) {
+            res.status(400).json({ statusCode: 400, message: 'Ce nom ne peut être validé' });
+        } else {
+            next();
         }
     }
 }
