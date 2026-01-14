@@ -1,18 +1,18 @@
 const taskController = require('../controllers/task.controller');
+const bodyValidatorMiddleware = require('../middlewares/bodyValidator.middleware');
 const idValidatorMiddleware = require('../middlewares/idValidator.middleware');
-const nameVerificationMiddleware = require('../middlewares/nameVerification.middleware');
 
 const taskRouter = require('express').Router();
 
 taskRouter.route('/')
     .get(taskController.getAll)
-    .post(nameVerificationMiddleware(), taskController.insert)
+    .post(bodyValidatorMiddleware(), taskController.insert)
 
 taskRouter.route('/:id')
     .get(idValidatorMiddleware(), taskController.getById)
-    .put(idValidatorMiddleware(), nameVerificationMiddleware(), taskController.update)
+    .put(bodyValidatorMiddleware(), idValidatorMiddleware(), taskController.update)
     .delete(idValidatorMiddleware(), taskController.delete)
-    .patch(idValidatorMiddleware(), taskController.updateStatus)
+    .patch(bodyValidatorMiddleware(), idValidatorMiddleware(), taskController.updateStatus)
 
 
 taskRouter.get('/user/:name', taskController.getByUser)
