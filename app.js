@@ -14,7 +14,9 @@ server.use(logMiddleware());
 const mongoose = require('mongoose')
 server.use( async (req, res, next) => {
     try {
-        await mongoose.connect(DB_CONNECTION);
+        await mongoose.connect(DB_CONNECTION, {
+            dbName : 'TaskManager'
+        });
         console.log("💾 Connection Successfully connect to the DB !");
         next();
         
