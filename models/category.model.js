@@ -15,7 +15,7 @@ const categorySchema = new Schema(
         }
     },
     {
-        collection: 'Catergory',
+        collection: 'Category',
         timestamps: true
     });
 

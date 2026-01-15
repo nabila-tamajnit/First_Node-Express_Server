@@ -20,7 +20,7 @@ const fakeCategoryService = {
         return categoryToAdd;
     },
 
-    alReadyExists : (name) => {
+    nameAlreadyExists : (name) => {
         return categories.some(category => category.name === name);
     }
 }
