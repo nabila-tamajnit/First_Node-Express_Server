@@ -46,6 +46,7 @@ const categoryController = {
             res.status(200).json(category);
         }
         catch (err) {
+            console.log(err);
             res.status(500).json({ statusCode: 500, message: 'Erreur de la DB' })
         }
     },
@@ -74,7 +75,7 @@ const categoryController = {
                 res.status(201).json(insertedCategory);
             }
         }
-        catch (err) {
+        catch(err) {
             res.sendStatus(500);
 
         }
