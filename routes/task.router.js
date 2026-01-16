@@ -14,7 +14,7 @@ taskRouter.route('/:id')
     .patch(bodyValidatorMiddleware(), taskController.updateStatus)
 
 
-taskRouter.get('/user/:name', taskController.getByUser)
+taskRouter.get('/user/:id', taskController.getByUser)
 
 
 module.exports = taskRouter;

@@ -1,4 +1,6 @@
 const { Schema, model, Types } = require("mongoose");
+const Category = require("./category.model");
+const User = require("../models/user.model");
 
 const taskSchema = new Schema(
     {
