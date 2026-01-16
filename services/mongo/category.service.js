@@ -18,17 +18,28 @@ const categoryService = {
         try {
             const searchedCategory = await Category.findById(id);
             return searchedCategory;
-
-        } catch(err) {
+        } 
+        catch(err) {
             console.log(err);
             throw new Error(err);
             
         }
     },
     //? ======================CREATE===============================
-    create : async(category) => {},
+    create : async(category) => {
+        try {
+            const categoryToAdd = Category(category);
+            await categoryToAdd.save();
 
-    //? ====================NAMEALREADYEXISTS=============================
+            return categoryToAdd;
+        } 
+        catch(err) {
+            console.log(err);
+            throw new Error(err);
+        }
+    },
+
+    //? ====================NAMEALREADYEXISTS============================
     nameAlreadyExists : async(name) => {
         try {
 

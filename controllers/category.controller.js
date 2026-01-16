@@ -67,18 +67,17 @@ const categoryController = {
                     message: `La catégorie ${categoryToAdd.name} éxiste déjà`
                 })
             }
+            else {
+                const insertedCategory = await categoryService.create(categoryToAdd);
+
+                res.location(`/api/categories/${insertedCategory}`);
+                res.status(201).json(insertedCategory);
+            }
         }
         catch (err) {
             res.sendStatus(500);
 
         }
-
-
-        const addedCategory = fakeCategoryService.create(categoryToAdd);
-
-        res.location(`/api/categories/${addedCategory}`);
-        res.status(201).json(addedCategory);
-        // res.sendStatus(501);
     },
     //? ======================UPDATE===============================
     /**
