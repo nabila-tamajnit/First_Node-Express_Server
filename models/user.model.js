@@ -18,7 +18,7 @@ const userSchema = new Schema(
             trim : true,
             unique : true
         },
-        passeword : {
+        password : {
             type : String,
             required : true,
         },
