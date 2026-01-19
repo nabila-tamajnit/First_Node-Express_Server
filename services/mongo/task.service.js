@@ -5,48 +5,140 @@ const taskService = {
     //? ======================FIND======================================
     find: async () => {
         try {
-            const tasks = await Task.find();
+            // Populate permet de rajouter les informations reliées à notre objet task grâce à la ref qu'on a établi dans le Schema
+            const tasks = await Task.find()
+                .populate({
+                    path: 'categoryId',
+                    select: { id: 1, name: 1, icon: 1 }
+                })
+                .populate({
+                    path: 'fromUserId',
+                    select: { id: 1, firstname: 1, lastname: 1 }
+                })
+                .populate({
+                    path: 'toUserId',
+                    select: { id: 1, firstname: 1, lastname: 1 }
+                });
             return tasks;
+
         }
         catch (err) {
+
             console.log(err);
             throw new Error(err);
+
         }
+        // try {
+        //     const tasks = await Task.find();
+        //     return tasks;
+        // }
+        // catch (err) {
+        //     console.log(err);
+        //     throw new Error(err);
+        // }
     },
     //? ======================FINDBYID==================================
     findById: async (id) => {
         try {
-            const searchedTask = await Task.findById(id);
-            return searchedTask;
+
+            const task = await Task.findById(id)
+                .populate({
+                    path: 'categoryId',
+                    select: { id: 1, name: 1, icon: 1 }
+                })
+                .populate({
+                    path: 'fromUserId',
+                    select: { id: 1, firstname: 1, lastname: 1 },
+                })
+                .populate({
+                    path: 'toUserId',
+                    select: { id: 1, firstname: 1, lastname: 1 }
+                });
+            return task;
+
         }
         catch (err) {
             console.log(err);
             throw new Error(err);
+
         }
+        // try {
+        //     const searchedTask = await Task.findById(id);
+        //     return searchedTask;
+        // }
+        // catch (err) {
+        //     console.log(err);
+        //     throw new Error(err);
+        // }
     },
     //? ======================FINDASSIGNEDTO============================
     findAssignedTo: async (userId) => {
         try {
-            const taskAssigned = await Task.find({ fromUserId: userId });
 
-            return taskAssigned;
-        }
-        catch (err) {
+            //Trouver toutes les tâches assignées au userId reçu en paramètre
+            const tasks = await Task.find({ toUserId: userId })
+                .populate({
+                    path: 'categoryId',
+                    select: { id: 1, name: 1, icon: 1 }
+                })
+                .populate({
+                    path: 'fromUserId',
+                    select: { id: 1, firstname: 1, lastname: 1 },
+                })
+                .populate({
+                    path: 'toUserId',
+                    select: { id: 1, firstname: 1, lastname: 1 }
+                });
+            return tasks;
+
+        } catch (err) {
             console.log(err);
             throw new Error(err);
         }
+
+        // try {
+        //     const taskAssigned = await Task.find({ fromUserId: userId });
+
+        //     return taskAssigned;
+        // }
+        // catch (err) {
+        //     console.log(err);
+        //     throw new Error(err);
+        // }
     },
     //? ======================FINDGIVENBY===============================
     findGivenBy: async (userId) => {
         try {
-            const taskGiven = await Task.find({ toUserId: userId });
 
-            return taskGiven;
-        }
-        catch (err) {
+            //Trouver toutes les tâches données par le userId reçu en paramètre
+            const tasks = await Task.find({ fromUserId: userId })
+                .populate({
+                    path: 'categoryId',
+                    select: { id: 1, name: 1, icon: 1 }
+                })
+                .populate({
+                    path: 'fromUserId',
+                    select: { id: 1, firstname: 1, lastname: 1 },
+                })
+                .populate({
+                    path: 'toUserId',
+                    select: { id: 1, firstname: 1, lastname: 1 }
+                });
+            return tasks;
+
+        } catch (err) {
             console.log(err);
             throw new Error(err);
         }
+        // try {
+        //     const taskGiven = await Task.find({ toUserId: userId });
+
+        //     return taskGiven;
+        // }
+        // catch (err) {
+        //     console.log(err);
+        //     throw new Error(err);
+        // }
     },
     //? ======================CREATE====================================
     create: async (task) => {
@@ -80,13 +172,20 @@ const taskService = {
     //? ======================DELETE====================================
     delete: async (id) => {
         try {
-            const taskDelete = await Task.deleteOne({ _id : id })
-
-            if (taskDelete === -1) {
+            const deletedTask = await Task.findByIdAndDelete(id);
+            if (deletedTask) {
+                return true;
+            } else {
                 return false;
             }
 
-            return taskDelete;
+            // const taskDelete = await Task.deleteOne({ _id : id })
+
+            // if (taskDelete === -1) {
+            //     return false;
+            // }
+
+            // return taskDelete;
 
             // Task.splice(index, 1);
             // return true;

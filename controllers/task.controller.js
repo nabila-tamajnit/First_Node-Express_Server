@@ -14,14 +14,19 @@ const taskController = {
     getAll: async (req, res) => {
 
         try {
-            const tasks = await taskService.find();
 
-            res.status(200).json(tasks);
+            const tasks = await taskService.find();
+            const dataToSend = {
+                count: tasks.length,
+                tasks
+            };
+            res.status(200).json(dataToSend);
+
+        } catch (err) {
+
+            res.status(500).json({ statusCode: 500, message: 'Erreur lors de la récupération des tâches dans la DB' });
         }
-        catch (err) {
-            console.log(err);
-            res.status(500).json({ statusCode: 500, message: 'erreur avec la DB' });
-        }
+
         // Version 1 (quand ya pas forcement bcp d'éléments)
         // res.status(200).json(tasks)
 
@@ -43,8 +48,11 @@ const taskController = {
         const id = req.params.id;
 
         try {
+
+            const id = req.params.id;
             const task = await taskService.findById(id);
 
+            // Si pas de tâche récupérée (donc si l'id n'existe pas) l'API renvoie une erreur 404
             if (!task) {
                 res.status(404).json({
                     statusCode: 404,
@@ -52,12 +60,15 @@ const taskController = {
                 })
             }
 
+            // Si y'a une tâche
             res.status(200).json(task);
+
+
         }
         catch (err) {
-            console.log(err);
-            res.status(500).json({ statusCode: 500, message: 'Erreur de la DB' })
+            res.status(500).json({ statusCode: 500, message: 'Une erreur est survenue lors de la récupération de la tâche' })
         }
+
 
 
     },
@@ -71,6 +82,7 @@ const taskController = {
 
         try {
             const userId = req.params.id;
+            //TODO Idéalement il faudrait utiliser un userService pour vérifier si l'utilisateur existe vraiment en DB
 
             const tasksToDo = await taskService.findAssignedTo(userId);
             const tasksGiven = await taskService.findGivenBy(userId);
@@ -82,9 +94,8 @@ const taskController = {
 
             res.status(200).json(dataToSend);
         }
-        catch(err) {
-            console.log(err);
-            res.status(500).json({ statusCode: 500, message: 'Erreur de la DB' })
+        catch (err) {
+            res.status(500).json({ statusCode: 500, message: 'Erreur de la db' });
         }
         //  Version 1 
         // const tasks = fakeTaskService.findToUser(userName);
@@ -99,17 +110,19 @@ const taskController = {
      * @param { Response } res 
      */
     insert: async (req, res) => {
-        const taskToAdd = req.body
+        const taskToAdd = req.body;
 
         try {
-            insertedTask = await taskService.create(taskToAdd);
+            const addedTask = await taskService.create(taskToAdd);
+            // Pour respecter les principes REST, on doit rajouter à la réponse, une url qui permet de consulter la valeur ajoutée
+            res.location(`/api/tasks/${addedTask.id}`);
+            res.status(201).json(addedTask);
 
-            res.location(`/api/tasks/${insertedTask}`);
-            res.status(201).json(insertedTask);
         }
         catch (err) {
-            res.sendStatus(500);
+            res.status(500).json({ statusCode: 500, message: 'Erreur lors de l\'ajout dans la DB' })
         }
+
     },
     //? ======================UPDATE===============================
     /**
@@ -162,24 +175,20 @@ const taskController = {
      * @param { Response } res 
      */
     delete: async (req, res) => {
-        const id = req.params.id;
-
         try {
-            
-            if (taskService.delete(id)) {
-            res.sendStatus(204);
+
+            const id = req.params.id;
+
+            if (await taskService.delete(id)) {
+                res.sendStatus(204);
+            }
+            else {
+                res.status(404).json({ statusCode: 404, message: 'Suppression impossible, la tâche n\'existe pas' })
+            }
+        } catch (err) {
+            res.status(500).json({ statusCode: 500, message: 'Erreur db' });
         }
-        else {
-            res.status(404).json({
-                statusCode: 404,
-                message: 'Suppression impossible, la tâche n\'existe pas'
-            })
-        }
-        }
-        catch(err) {
-            console.log(err);
-            res.sendStatus(500);
-        }
+
     }
 
 }
