@@ -1,11 +1,12 @@
 const taskController = require('../controllers/task.controller');
 const bodyValidatorMiddleware = require('../middlewares/bodyValidator.middleware');
+const authenticationMiddleware = require('../middlewares/auth/authentication.middleware');
 
 const taskRouter = require('express').Router();
 
 taskRouter.route('/')
     .get(taskController.getAll)
-    .post(bodyValidatorMiddleware(), taskController.insert)
+    .post(authenticationMiddleware(), bodyValidatorMiddleware(), taskController.insert)
 
 taskRouter.route('/:id')
     .get(taskController.getById)
