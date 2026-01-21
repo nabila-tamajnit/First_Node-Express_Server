@@ -3,10 +3,39 @@ const Task = require('../../models/task.model');
 const taskService = {
 
     //? ======================FIND======================================
-    find: async () => {
+    find: async (query) => {
         try {
+            // ? Récupérer ce qu'on a reçu dans la query pour ajouter des filtres de recherche
+            const { isDone, categoryId } = query;
+            
+            // * vérifier si isDone est bien présent dans la query pour créer un nvx filtre
+            let isDoneFilter;
+
+            if(isDone === undefined) {
+                isDoneFilter = {};
+            }
+            else {
+                isDoneFilter = { isDone : isDone }
+            }
+
+            // * vérifier si y a des category dans la query
+            let categoryFilter;
+            // Si pas reçu de categoryId dans la query, filtre vide
+            if(!categoryId){
+                categoryFilter = {}
+            }
+            //  -Sinon, comme on pourrait rechercher plusieurs catégories, on va regarder si c'est un tableau
+            else if( Array.isArray(categoryId)){
+                //  = { nomChampsEnDB : { $in : categoryId } }
+                categoryFilter = { categoryId : { $in : categoryId } }
+            }
+            // Si pas tableau, on cherche une seule catégorie
+            else {
+                categoryFilter = { categoryId : categoryId };
+            }
+
             // Populate permet de rajouter les informations reliées à notre objet task grâce à la ref qu'on a établi dans le Schema
-            const tasks = await Task.find()
+            const tasks = await Task.find( isDoneFilter ) .and( categoryFilter )
                 .populate({
                     path: 'categoryId',
                     select: { id: 1, name: 1, icon: 1 }
