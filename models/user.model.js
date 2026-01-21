@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model } = require('mongoose');
 
 const userSchema = new Schema(
     {
@@ -25,10 +25,12 @@ const userSchema = new Schema(
         role : {
             type : String,
             required : true,
-            enum : ["User", "Admin"],
-            default : 'User'
+            enum : ['User', 'Admin'], 
+            /* enum permet de donner une liste de chaines autorisées, si on encode autre chose -> erreur */
+            default : 'User' 
+            /* default permet de mettre une valeur par défaut, si on ne renseigne pas de role, ce sera User qui sera inséré */
         }
-    },
+    }, 
     {
         collection : 'User',
         timestamps : true

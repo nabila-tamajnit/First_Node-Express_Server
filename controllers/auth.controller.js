@@ -1,6 +1,5 @@
 const authService = require("../services/mongo/auth.service");
-const jwtUtils = require("../utils/jwt.utils");
-
+const jwtUtils = require('../utils/jwt.utils');
 
 const authController = {
 
@@ -58,7 +57,7 @@ const authController = {
                     firstname : userFound.firstname, 
                     lastname : userFound.lastname,
                     token
-                } )
+                } );
             }
 
         }catch(err){
