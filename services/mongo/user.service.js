@@ -18,16 +18,21 @@ const userService = {
 
             }else {
                 searchFilter = { $regex : new RegExp(search, 'i')};
+                // new RegExp(search, 'i') va créer une regex
+                // ex : si dans ma search il y a "au" -> /au/i
 
                 firstnameFilter = { firstname : searchFilter };
+                // { firstname : { $regex : new RegExt(search, 'i') } }
                 lastnameFilter = { lastname : searchFilter };
+                // { lastname : { $regex : new RegExt(search, 'i') } }
 
             }
 
             console.log(firstnameFilter);
             console.log(lastnameFilter);
             
-            const users = await User.find().or([firstnameFilter, lastnameFilter])
+            const users = await User.find()
+            .or([firstnameFilter, lastnameFilter])
             .select(['_id', 'firstname', 'lastname', 'createdAt', 'updatedAt']);
             return users;
 
